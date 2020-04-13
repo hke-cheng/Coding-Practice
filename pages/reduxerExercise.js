@@ -1,52 +1,54 @@
-import React, { useState, } from 'react';
+import React, { useReducer } from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 
 import ColorCounter from "../components/basics/colorCounter";
 
+
+const DEGREE = 15;
+
+
+//define reducer: howt to change the states
+const reducer = (state, action) => {
+  //state === {red:number, green:number, blue:number};
+  //action === { colorToChange: "red" || "green" || "blue", amount:15||-15 }
+
+  switch (action.colorTochange) {
+    case "red":
+      return { ...state, red: state.red + action.amount };
+    case "green":
+      return { ...state, green: state.green + action.amount };
+    case "blue":
+      return { ...state, blue: state.blue + action.amount };
+    default:
+      return state;
+  }
+
+}
+
+
 const ReducerExercise = ({ navigation }) => {
 
-  const [red, setRed] = useState(0);
-  const [blue, setBlue] = useState(0);
-  const [green, setGreen] = useState(0);
-  const DEGREE = 15;
-
-  const setColor = (color, change) => {
-    // color === "red","green","blue";
-    //change === +15,-15
-
-    switch (color) {
-      case "red":
-        red + change > 255 || red + change < 0 ? null : setRed(red + change);
-        return;
-      case "green":
-        green + change > 255 || green + change < 0 ? null : setGreen(green + change);
-        return;
-      case "blue":
-        blue + change > 255 || blue + change < 0 ? null : setBlue(blue + change);
-        return;
-    }
-  };
-
-
+  const [state, dispatch] = useReducer(reducer, { red: 0, green: 0, blue: 0 });
+  const { red, green, blue } = state;
   return (
     <View style={styles.container}>
 
       <ColorCounter
         color="Red"
-        onIncrease={() => setColor("red", DEGREE)}
-        onDecrease={() => setColor("red", -1 * DEGREE)}
+        onIncrease={() => dispatch({ colorTochange: "red", amount: DEGREE })}
+        onDecrease={() => dispatch({ colorTochange: "red", amount: -1 * DEGREE })}
       />
 
       <ColorCounter
         color="Blue"
-        onIncrease={() => setColor("blue", DEGREE)}
-        onDecrease={() => setColor("blue", -1 * DEGREE)}
+        onIncrease={() => dispatch({ colorTochange: "blue", amount: DEGREE })}
+        onDecrease={() => dispatch({ colorTochange: "blue", amount: -1 * DEGREE })}
       />
 
       <ColorCounter
         color="Green"
-        onIncrease={() => setColor("green", DEGREE)}
-        onDecrease={() => setColor("green", -1 * DEGREE)}
+        onIncrease={() => dispatch({ colorTochange: "green", amount: DEGREE })}
+        onDecrease={() => dispatch({ colorTochange: "green", amount: -1 * DEGREE })}
       />
 
       <View style={{ height: 150, width: 150, backgroundColor: `rgb(${red},${green},${blue})` }} />
