@@ -1,3 +1,3 @@
 # Coding-Practice
 
-React Native Practive
+React Native Practice
