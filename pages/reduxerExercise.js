@@ -14,12 +14,16 @@ const ReducerExercise = ({ navigation }) => {
     // color === "red","green","blue";
     //change === +15,-15
 
-    if (color === "red") {
-      if (red + change > 255 || red + change < 0) {
+    switch (color) {
+      case "red":
+        red + change > 255 || red + change < 0 ? null : setRed(red + change);
         return;
-      } else {
-        setRed(red + change);
-      }
+      case "green":
+        green + change > 255 || green + change < 0 ? null : setGreen(green + change);
+        return;
+      case "blue":
+        blue + change > 255 || blue + change < 0 ? null : setBlue(blue + change);
+        return;
     }
   };
 
@@ -35,16 +39,14 @@ const ReducerExercise = ({ navigation }) => {
 
       <ColorCounter
         color="Blue"
-        onIncrease={() =>
-          setBlue(blue + DEGREE)
-        }
-        onDecrease={() => setBlue(blue - DEGREE)}
+        onIncrease={() => setColor("blue", DEGREE)}
+        onDecrease={() => setColor("blue", -1 * DEGREE)}
       />
 
       <ColorCounter
         color="Green"
-        onIncrease={() => setGreen(green + DEGREE)}
-        onDecrease={() => setGreen(green - DEGREE)}
+        onIncrease={() => setColor("green", DEGREE)}
+        onDecrease={() => setColor("green", -1 * DEGREE)}
       />
 
       <View style={{ height: 150, width: 150, backgroundColor: `rgb(${red},${green},${blue})` }} />
